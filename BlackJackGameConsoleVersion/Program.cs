@@ -81,90 +81,104 @@ namespace BlackJackGameConsoleVersion
                 Console.WriteLine("Dealer has: ");
                 dealerHand.ElementAt(0).printCard();
 
-                Console.WriteLine();
-                Console.WriteLine("What would you like to do ? Press H for hit or S for Stand");
-                Console.WriteLine();
-
-                String userInput = Console.ReadLine().ToUpper();
-
-                while (!userInput.Equals("H") && !userInput.Equals("S"))
+                if (playeTotalHand == 21)
                 {
-                    Console.WriteLine("What would you like to do ? Press H for hit or S for Stand");
-                    userInput = Console.ReadLine().ToUpper();
                     Console.WriteLine();
+                    Console.WriteLine("You have BlackJack !");
+                    Thread.Sleep(5000);
+                    PlayNewGame();
                 }
-
-                while (userInput.Equals("H") && playerTotal < 22 && !winner)
+                else
                 {
-                    playerHand.Add(playingDeck.ElementAt(0));
-                    playerTotal = playerTotal + playingDeck.ElementAt(0).getValue();
-                    playingDeck.RemoveAt(0);
-                    printList(playerHand);
-
+                    Console.WriteLine();
                     Console.WriteLine("What would you like to do ? Press H for hit or S for Stand");
                     Console.WriteLine();
-                    userInput = Console.ReadLine().ToUpper();
 
-                    if (playerTotal > 21)
+                    String userInput = Console.ReadLine().ToUpper();
+
+
+                    while (!userInput.Equals("H") && !userInput.Equals("S"))
                     {
-                        winner = true;
-                        Console.WriteLine("You are busted ! Dealer wins ! Good luck next time !");
+                        Console.WriteLine("What would you like to do ? Press H for hit or S for Stand");
+                        userInput = Console.ReadLine().ToUpper();
+                        Console.WriteLine();
                     }
-                }
 
-                while (userInput.Equals("S") && dealerTotal < 17 && !winner)
-                {
-                    dealerHand.Add(playingDeck.ElementAt(0));
-                    dealerTotal = dealerTotal + playingDeck.ElementAt(0).getValue();
-                    playingDeck.RemoveAt(0);
-                    printList(dealerHand);
-                    Console.ReadKey();
-                }
+                    
+                    while (userInput.Equals("H") && playerTotal < 22 && !winner)
+                    {
+                        playerHand.Add(playingDeck.ElementAt(0));
+                        playerTotal = playerTotal + playingDeck.ElementAt(0).getValue();
+                        playingDeck.RemoveAt(0);
+                        printList(playerHand);
+                        Console.WriteLine("Total: " + playerTotal);
 
-                if (dealerTotal > playerTotal && dealerTotal < 22)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("Dealer wins with " + dealerTotal + "over your hand with " + playerTotal);
+                        Console.WriteLine("What would you like to do ? Press H for hit or S for Stand");
+                        Console.WriteLine();
+                        userInput = Console.ReadLine().ToUpper();
+
+                        if (playerTotal > 21)
+                        {
+                            winner = true;
+                        }
+                    }
+
+                    while (userInput.Equals("S") && dealerTotal < 17 && !winner)
+                    {
+                        dealerHand.Add(playingDeck.ElementAt(0));
+                        dealerTotal = dealerTotal + playingDeck.ElementAt(0).getValue();
+                        playingDeck.RemoveAt(0);
+                        printList(dealerHand);            
+                        Console.ReadKey();
+                        Console.WriteLine();
+                        Console.WriteLine("Total: " + dealerTotal);
+                    }
+
+                    if (dealerTotal > playerTotal && dealerTotal < 22)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("Dealer wins with " + dealerTotal + " over your hand with " + playerTotal);
+                    }
+                    else if (playerTotal > 21)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("You are busted ! Dealer wins !");
+                    }
+                    else if (dealerTotal > 21)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("Dealer is busted. You win !");
+                    }
+                    else if (playerTotal > dealerTotal)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("You win with " + playerTotal + " over Dealer's hand with " + dealerTotal);
+                    }
+                    else if (playerTotal == 21)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("Congrats you have BlackJack !");
+                    }
+                    else if (dealerTotal == 21)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("Dealer has 21 ! You lost !");
+                    }
+                    else if (dealerTotal == playerTotal)
+                    {
+                        Console.WriteLine();
+                        winner = true;
+                        Console.WriteLine("Tie you both have " + dealerTotal);
+                    }
+                    Thread.Sleep(5000);
+                    PlayNewGame();
                 }
-                else if (playerTotal > 21)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("You are busted ! Dealer wins !");
-                }
-                else if (dealerTotal > 21)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("Dealer is busted. You win !");
-                }
-                else if (playerTotal > dealerTotal)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("You win with " + playerTotal + "over Dealer's hand with " + dealerTotal);
-                }
-                else if (playerTotal == 21)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("Congrats you have BlackJack !");
-                }
-                else if (dealerTotal == 21)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("Dealer has BlackJack ! You lost !");
-                }
-                else if (dealerTotal == playerTotal)
-                {
-                    Console.WriteLine();
-                    winner = true;
-                    Console.WriteLine("Tie you both have " + dealerTotal);
-                }
-                Thread.Sleep(5000);
-                PlayNewGame();
             }
         }
 
